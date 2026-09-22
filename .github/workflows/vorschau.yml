@@ -5,6 +5,9 @@
 # baut GitHub daraus automatisch die Vorschau-Seite neu und stellt sie unter
 # https://marinello.vorschau.ao-consult.de bereit.
 #
+# Die echte Domain ist kfo-marinello.de. Dort liegt noch die alte Seite,
+# die Vorschau hat damit nichts zu tun.
+#
 # Die Vorschau ist NICHT die echte Webseite. Deshalb bekommt jede Seite hier
 # einen "noindex"-Hinweis, damit Google die Vorschau nicht in die Suche nimmt.
 # Auf dem echten Server (siehe livegang.yml) passiert das nicht.
