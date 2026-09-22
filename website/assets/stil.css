@@ -1,0 +1,651 @@
+/* ============================================================================
+   KIEFERORTHOPAEDIE DR. IVANA MARINELLO, BUTZBACH
+   Gestaltung nach dem Vorbild audent.de, in Hellblau statt Beige:
+   eine einzige Farbflaeche, Fotos randlos bis zur Seitenkante, strenges
+   Halbe-Halbe im Schachbrett, grosse Versal-Ueberschriften, viel Luft,
+   ovale Knoepfe nur mit Umrandung, dunkler Abschluss mit Terminaufruf.
+   Kein Pink, kein Lila. Akzente nur Warm Grey und ein Hauch Rosa.
+   Version 0.2 | 17.09.2026
+   ============================================================================ */
+
+/* ---------------------------------------------------------------- 1 TOKENS */
+:root{
+  --blau:        #E6EDF2;   /* Grundfarbe der ganzen Seite */
+  --blau-tief:   #D6E2EA;   /* Platzhalter, Bildmasken */
+  --blau-hell:   #EEF3F7;   /* leicht hellere Flaeche fuer Rahmen-Bloecke */
+  --weiss:       #FFFFFF;
+
+  --tinte:       #22282C;   /* Schrift, Knopffuellung, dunkler Abschluss */
+  --tinte-leise: #5E686E;
+  --tinte-hell:  #8A9298;
+
+  --grau-warm:   #8C837C;
+  --rosa:        #E2CAC5;
+  --rosa-tief:   #C9A9A3;
+  --offen:       #3F8A5B;   /* Punkt der Sprechzeiten-Anzeige, wenn offen */
+
+  --linie:       rgba(34,40,44,.18);
+  --linie-zart:  rgba(34,40,44,.10);
+
+  --breite:      1180px;
+  --breite-weit: 1560px;
+  --rand:        clamp(1.25rem, 5vw, 5rem);
+  --bogen:       0;                          /* alles eckig, wie audent */
+
+  /* Diese Namen lesen barrierefreiheit.css und einwilligung.css aus */
+  --navy:       #22282C;
+  --navy-deep:  #1A1F22;
+  --navy-ink:   #12161A;
+  --coral:      #6E655F;
+  --coral-dark: #574F4A;
+
+  --schrift: 'Source Sans 3', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --tracking-label: .2em;
+  --tracking-titel: .08em;
+}
+
+/* ------------------------------------------------------------ 2 GRUNDLAGEN */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--blau);
+  color:var(--tinte);
+  font-family:var(--schrift);
+  font-weight:400;
+  font-size:1.125rem;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+picture{display:block;height:100%}
+a{color:inherit;text-decoration:none}
+p{margin:0 0 1.15em}
+p:last-child{margin-bottom:0}
+ul,ol{margin:0 0 1.15em;padding-left:1.15em}
+li{margin:0 0 .45em}
+
+/* Ueberschriften werden nicht getrennt: "ZAHNSPAN-GEN" sieht unschoen aus.
+   Sie brechen an Leerzeichen, nur ein einzelnes Wort, das breiter ist als die
+   Zeile, wird notfalls umbrochen. Auf sehr schmalen Bildschirmen erlauben wir
+   die Trennung doch, dort ist sie das kleinere Uebel. */
+h1,h2,h3,h4{
+  font-weight:300;line-height:1.12;margin:0 0 .55em;color:var(--tinte);
+  overflow-wrap:break-word;hyphens:manual;-webkit-hyphens:manual;
+  text-wrap:balance;
+}
+p,li,a{overflow-wrap:break-word}
+.luecke,a[href^="http"],a[href^="mailto"]{overflow-wrap:anywhere}
+h1{font-size:clamp(2.1rem, 3.8vw, 3.2rem);letter-spacing:.06em;text-transform:uppercase}
+h2{font-size:clamp(1.8rem, 3.1vw, 2.7rem);letter-spacing:var(--tracking-titel);text-transform:uppercase}
+h3{font-size:clamp(1.25rem, 1.8vw, 1.6rem);font-weight:300;letter-spacing:.02em}
+h4{font-size:1.0625rem;font-weight:600}
+
+:focus{outline:2px solid var(--tinte);outline-offset:3px}
+:focus:not(:focus-visible){outline:none}
+:focus-visible{outline:2px solid var(--tinte);outline-offset:3px}
+.dunkel :focus-visible{outline-color:var(--weiss)}
+
+/* ------------------------------------------------------------ 3 BAUSTEINE */
+.huelle{width:100%;max-width:var(--breite);margin-inline:auto;padding-inline:var(--rand)}
+.huelle--weit{max-width:var(--breite-weit)}
+.abschnitt{padding-block:clamp(4rem, 8vw, 7rem)}
+.abschnitt--eng{padding-block:clamp(3.5rem, 7vw, 6rem)}
+
+.label{
+  display:block;font-size:.72rem;font-weight:600;
+  letter-spacing:var(--tracking-label);text-transform:uppercase;
+  color:var(--grau-warm);margin:0 0 1.4rem;
+}
+.vorspann{
+  font-size:clamp(1.0625rem, 1.4vw, 1.2rem);font-weight:300;line-height:1.7;
+  color:var(--tinte-leise);max-width:58ch;
+}
+.mitte{margin-inline:auto;text-align:center}
+.mitte .vorspann{margin-inline:auto}
+
+/* kurze Linie unter einer Ueberschrift, wie bei audent */
+.strich{width:56px;height:1px;background:var(--tinte);opacity:.55;margin:1.6rem 0 1.8rem}
+.mitte .strich{margin-inline:auto}
+
+/* Knopf im Stil der Knoepfe im Einwilligungsbanner: leicht abgerundetes
+   Rechteck, klare Fuellung beim Hauptknopf mit weichem Schein, heller Knopf
+   mit Umrandung daneben. */
+.knopf{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+  min-height:48px;padding:.8rem 1.9rem;
+  border:1.5px solid var(--tinte);border-radius:7px;
+  background:var(--weiss);color:var(--tinte);
+  font-family:inherit;font-size:.875rem;font-weight:600;letter-spacing:.02em;
+  white-space:nowrap;cursor:pointer;
+  transition:background-color .2s ease,color .2s ease,border-color .2s ease,
+             transform .2s ease,box-shadow .2s ease;
+}
+.knopf:hover,.knopf:focus-visible{
+  background:var(--tinte);color:var(--weiss);border-color:var(--tinte);
+  transform:translateY(-1px);
+  box-shadow:0 12px 26px -14px rgba(34,40,44,.95), 0 0 0 4px rgba(34,40,44,.12);
+}
+.knopf:active{transform:translateY(0);box-shadow:none}
+
+/* Hauptknopf: gefuellt, mit dem weichen Schein aus dem Banner */
+.knopf--voll{
+  background:var(--tinte);color:var(--weiss);border-color:var(--tinte);
+  box-shadow:0 12px 26px -14px rgba(34,40,44,.95), 0 0 0 4px rgba(34,40,44,.12);
+}
+.knopf--voll:hover,.knopf--voll:focus-visible{
+  background:var(--navy-deep);border-color:var(--navy-deep);color:var(--weiss);
+}
+/* Zweitrangig: ohne Fuellung, feine Linie */
+.knopf--leise{background:transparent;border-color:var(--linie);color:var(--tinte-leise)}
+.knopf--leise:hover,.knopf--leise:focus-visible{background:var(--tinte);color:var(--weiss);border-color:var(--tinte)}
+.knopf--hell{background:transparent;border-color:rgba(255,255,255,.6);color:var(--weiss)}
+.knopf--hell:hover,.knopf--hell:focus-visible{background:var(--weiss);color:var(--tinte);border-color:var(--weiss);box-shadow:0 12px 26px -14px rgba(255,255,255,.6)}
+.knopfreihe{display:flex;flex-wrap:wrap;gap:.85rem;margin-top:2.2rem}
+.mitte .knopfreihe{justify-content:center}
+
+.textlink{
+  display:inline-block;font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-label);
+  text-transform:uppercase;border-bottom:1px solid var(--linie);padding-bottom:.25rem;
+  transition:border-color .25s ease,color .25s ease;
+}
+.textlink:hover,.textlink:focus-visible{border-color:var(--tinte);color:var(--tinte)}
+
+.platzhalter{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  min-height:320px;height:100%;
+  background:repeating-linear-gradient(135deg, var(--blau-tief) 0 14px, var(--blau) 14px 28px);
+  color:var(--tinte-leise);font-size:.72rem;font-weight:600;
+  letter-spacing:var(--tracking-label);text-transform:uppercase;text-align:center;padding:1.5rem;
+}
+.platzhalter span{max-width:22ch}
+
+/* --------------------------------------------------------- 4 SPRUNGLINKS */
+/* Text, der nur vorgelesen wird, etwa der Hinweis auf einen neuen Tab */
+.nur-vorlesen{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;
+}
+.sprunglinks{list-style:none;margin:0;padding:0;position:absolute;z-index:1200}
+.sprunglinks a{
+  position:absolute;left:-9999px;top:0;background:var(--tinte);color:var(--blau);
+  padding:.75rem 1.25rem;font-size:.8125rem;font-weight:600;
+  letter-spacing:var(--tracking-label);text-transform:uppercase;white-space:nowrap;
+}
+.sprunglinks a:focus{left:.75rem;top:.75rem}
+
+/* -------------------------------------------------------- 5 KONTAKTLEISTE */
+.kontaktleiste{
+  position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:900;
+  display:flex;flex-direction:column;
+  background:rgba(255,255,255,.92);backdrop-filter:blur(6px);
+  border:1px solid var(--linie-zart);border-left:0;border-radius:0 6px 6px 0;overflow:hidden;
+}
+.kontaktleiste a{
+  display:flex;align-items:center;justify-content:center;width:46px;height:46px;
+  color:var(--tinte-leise);border-bottom:1px solid var(--linie-zart);
+  transition:background-color .25s ease,color .25s ease;
+}
+.kontaktleiste a:last-child{border-bottom:0}
+.kontaktleiste a:hover,.kontaktleiste a:focus-visible{background:var(--tinte);color:var(--weiss)}
+.kontaktleiste svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+/* -------------------------------------------------------------- 6 HEADER */
+/* Ueber dem Hero durchsichtig, nach dem ersten Scrollen mit Flaeche */
+body > header{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  background:rgba(230,237,242,.92);backdrop-filter:saturate(1.2) blur(12px);border-bottom:1px solid transparent;
+  transition:background-color .35s ease,border-color .35s ease,box-shadow .35s ease;
+}
+body > header.ist-gescrollt{
+  background:rgba(230,237,242,.97);backdrop-filter:saturate(1.2) blur(12px);
+  border-bottom-color:var(--linie-zart);
+}
+.kopf{
+  max-width:var(--breite-weit);margin-inline:auto;
+  padding:1rem var(--rand);display:flex;align-items:center;gap:1.5rem;min-height:76px;
+}
+.burger{
+  display:flex;flex-direction:column;justify-content:center;gap:5px;
+  width:44px;height:44px;padding:0 9px;background:none;border:0;cursor:pointer;color:var(--tinte);
+}
+.burger span{display:block;height:1px;background:currentColor;transition:width .3s ease}
+.burger span:nth-child(2){width:70%}
+.burger:hover span:nth-child(2){width:100%}
+
+.marke{display:flex;align-items:center;gap:.8rem;margin-right:auto;opacity:0;transform:translateY(-6px);transition:opacity .35s ease,transform .35s ease}
+body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;transform:none}
+.marke__zeichen{width:42px;height:42px;flex:none}
+.marke__wort{font-size:1.05rem;font-weight:400;line-height:1.2;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
+.marke__wort small{display:block;font-size:.68rem;font-weight:600;letter-spacing:.24em;color:var(--grau-warm);margin-top:.15rem}
+
+.hauptnav{display:flex;align-items:center;gap:1.55rem}
+.hauptnav a{
+  font-size:.9875rem;font-weight:400;letter-spacing:.03em;white-space:nowrap;
+  color:var(--tinte);padding-block:.35rem;border-bottom:1px solid transparent;
+  transition:color .25s ease,border-color .25s ease;
+}
+.hauptnav a:hover,.hauptnav a:focus-visible,.hauptnav a[aria-current="page"]{color:var(--tinte);border-color:var(--tinte)}
+
+/* ------------------------------------------- 8b SPRECHZEITEN-ANZEIGE (live)
+   Kleiner Punkt in der Kopfzeile, der zeigt, ob die Praxis gerade geoeffnet
+   hat. Die Farbe traegt die Aussage nicht allein, daneben steht immer Text.
+   Ein Klick klappt die Sprechzeiten der Woche auf. */
+.status{position:relative;flex:none;align-self:flex-start;margin-bottom:1.5rem}
+.status__knopf{
+  display:flex;align-items:center;gap:.55rem;min-height:38px;
+  padding:.35rem .95rem .35rem .8rem;background:none;cursor:pointer;
+  border:1.5px solid var(--linie-zart);border-radius:7px;color:var(--tinte);background:var(--weiss);
+  font:inherit;font-size:.85rem;letter-spacing:.02em;white-space:nowrap;
+  transition:border-color .25s ease,background-color .25s ease;
+}
+.status__knopf:hover,.status__knopf:focus-visible{border-color:var(--tinte)}
+.status__punkt{
+  position:relative;width:9px;height:9px;flex:none;border-radius:50%;
+  border:1px solid var(--tinte-hell);background:transparent;
+}
+.status[data-offen] .status__punkt{background:var(--offen);border-color:var(--offen)}
+.status[data-offen] .status__punkt::after{
+  content:"";position:absolute;inset:-5px;border-radius:50%;
+  border:1px solid var(--offen);opacity:.6;animation:puls 2.6s ease-out infinite;
+}
+@keyframes puls{
+  0%{transform:scale(.5);opacity:.55}
+  70%{transform:scale(1.35);opacity:0}
+  100%{opacity:0}
+}
+.status__panel{
+  position:absolute;top:calc(100% + 12px);left:0;z-index:10;width:min(21rem,80vw);
+  background:var(--weiss);border:1px solid var(--linie-zart);border-radius:7px;padding:1.5rem 1.6rem 1.6rem;
+  box-shadow:0 18px 40px rgba(34,40,44,.13);text-align:left;
+}
+.status__lage{font-size:.95rem;margin:0 0 1rem;color:var(--tinte)}
+.status__liste{list-style:none;margin:0;padding:0;font-size:.9rem}
+.status__liste li{
+  display:flex;justify-content:space-between;gap:1.5rem;
+  padding:.4rem 0;border-bottom:1px solid var(--linie-zart);color:var(--tinte-leise);
+}
+.status__liste li:last-child{border-bottom:0}
+.status__liste li[data-heute]{color:var(--tinte);font-weight:600}
+.status__liste span:last-child{text-align:right;white-space:nowrap}
+.status__feiertag{
+  font-size:.82rem;color:var(--tinte);margin:1rem 0 0;padding:.6rem .8rem;
+  background:var(--blau);line-height:1.45;
+}
+.status__fuss{font-size:.78rem;color:var(--tinte-hell);margin:1rem 0 0;line-height:1.5}
+@media (prefers-reduced-motion:reduce){.status[data-offen] .status__punkt::after{animation:none;opacity:.35}}
+.kopf .knopf{padding:.55rem 1.45rem;min-height:44px;font-size:.85rem}
+.kopf .knopf--voll:hover,.kopf .knopf--voll:focus-visible{background:transparent;color:var(--tinte);border-color:var(--tinte)}
+
+/* ------------------------------------------------------ 7 AUFKLAPP-MENUE */
+.menue{
+  position:fixed;inset:0;z-index:1000;background:var(--blau);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .4s ease,visibility .4s ease;overflow-y:auto;
+}
+.menue[data-offen]{opacity:1;visibility:visible;pointer-events:auto}
+.menue__innen{max-width:var(--breite-weit);margin-inline:auto;padding:2rem var(--rand) 5rem}
+.menue__kopf{
+  display:flex;align-items:center;justify-content:space-between;gap:2rem;
+  padding-block:1.4rem;border-top:1px solid var(--tinte);border-bottom:1px solid var(--tinte);margin-bottom:3.5rem;
+}
+.menue__bild{width:auto;height:clamp(56px,8vw,96px)}
+.menue__zu{width:44px;height:44px;flex:none;background:none;border:0;cursor:pointer;color:var(--tinte);font-size:1.7rem;line-height:1}
+.menue__liste{list-style:none;margin:0;padding:0}
+.menue__liste li{margin:0}
+.menue__liste > li > a{
+  display:block;font-size:clamp(1.6rem,3vw,2.3rem);font-weight:300;letter-spacing:.02em;
+  line-height:1.3;padding-block:.4rem;transition:color .25s ease,padding-left .25s ease;
+}
+.menue__liste > li > a:hover,.menue__liste > li > a:focus-visible{color:var(--grau-warm);padding-left:.6rem}
+.menue__unter{list-style:none;margin:.2rem 0 1rem;padding-left:1.1rem}
+.menue__unter a{
+  font-size:.95rem;color:var(--tinte-leise);border-left:1px solid var(--linie);padding-left:.9rem;display:block;
+  transition:color .25s ease,border-color .25s ease;
+}
+.menue__unter a:hover,.menue__unter a:focus-visible{color:var(--tinte);border-color:var(--tinte)}
+.menue__fuss{
+  margin-top:3rem;padding-top:2rem;border-top:1px solid var(--linie-zart);
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;
+  font-size:.9375rem;color:var(--tinte-leise);
+}
+
+/* ---------------------------------------------------------------- 8 HERO */
+/* Bildschirmhoch. Links die Marke, rechts das Foto randlos bis zum Rand. */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}
+.hero__text{
+  min-width:0;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(5.6rem,11.2vh,7.2rem) clamp(1.5rem,6vw,6rem) clamp(2.4rem,4.8vh,4rem);
+}
+.hero__logo{width:auto;height:clamp(90px,10vw,140px);margin-bottom:clamp(1.75rem,3.5vh,2.5rem)}
+.hero__claim{
+  font-size:clamp(1.1rem,1.3vw,1.25rem);font-weight:300;line-height:1.6;
+  color:var(--tinte-leise);max-width:42ch;margin-bottom:1.8rem;
+}
+.hero__bild{
+  min-height:clamp(520px,80vh,720px);
+  background-color:var(--blau-tief);background-repeat:no-repeat;
+  background-size:cover;background-position:var(--fokus, 50% 50%);
+}
+.hero h1{font-size:clamp(1.7rem,2.6vw,2.4rem);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem}
+
+/* ------------------------------------------------ 9 HALBE-HALBE IM WECHSEL */
+/* Foto und Text teilen sich die Breite exakt zur Haelfte. Aufeinander
+   folgende Bloecke wechseln die Seite, so entsteht das Schachbrett. */
+/* Foto-Text-Block wie bei audent: Foto randlos bis zur Seitenkante, Text auf
+   der anderen Haelfte. Feste Hoehe von gut einem halben Bildschirm, dadurch
+   haben alle Fotos dasselbe Querformat und kein Block frisst einen ganzen
+   Bildschirm. Aufeinander folgende Bloecke wechseln die Seite (Schachbrett). */
+.bloecke{padding:0}
+.halb{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:stretch}
+.halb__bild{position:relative;overflow:hidden;min-height:clamp(400px,54vh,520px)}
+.halb__bild .flaeche,.halb__bild .platzhalter{position:absolute;inset:0}
+
+/* Flaeche: Motiv als Hintergrundbild. Der Zuschnitt sitzt auf --fokus, damit
+   keine Koepfe angeschnitten werden. Geladen wird erst kurz vor dem Sichtfeld,
+   das uebernimmt skript.js ueber data-flaeche. */
+.flaeche{
+  background-color:var(--blau-tief);background-repeat:no-repeat;
+  background-size:cover;background-position:var(--fokus, 50% 50%);
+}
+.flaeche noscript img{width:100%;height:100%;object-fit:cover;object-position:var(--fokus, 50% 50%)}
+.halb__text{
+  min-width:0;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(2.5rem,5vw,4rem) clamp(1.5rem,6vw,6.5rem);
+}
+.halb__text h2,.halb__text h3{margin-bottom:1rem}
+.halb__text h2,.halb__text h3{font-size:clamp(1.7rem,2.5vw,2.4rem);letter-spacing:var(--tracking-titel);text-transform:uppercase;line-height:1.12}
+.halb__text p{color:var(--tinte-leise);font-weight:300;font-size:clamp(1.1rem,1.25vw,1.2rem);max-width:52ch;margin-bottom:.9em}
+.halb__text h3.unter{font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--grau-warm);margin:2.2rem 0 .6rem}
+.halb--gedreht .halb__bild{order:2}
+.halb--gedreht .halb__text{order:1}
+.halb--flach{min-height:0}
+
+/* Rahmen-Variante: Foto eingesetzt, Textseite auf leicht hellerer Flaeche.
+   Im Wechsel mit der randlosen Variante wirkt die Seite komponiert statt
+   nur links-rechts gestapelt. */
+/* Portraet-Variante: ein hochformatiges Bild wird nicht randlos ueber die
+   halbe Breite gezogen, sonst wird das Gesicht riesig. Stattdessen steht es
+   als Hochformat in der Spalte, mit Luft ringsum. */
+.halb--portraet .halb__bild{
+  position:static;display:flex;align-items:center;justify-content:flex-end;
+  min-height:0;padding:clamp(2rem,5vw,4rem) clamp(1.5rem,4vw,4rem);
+}
+.halb--portraet .halb__bild .flaeche,
+.halb--portraet .halb__bild .platzhalter{
+  position:static;width:min(100%,360px);aspect-ratio:3/4;
+}
+.halb--portraet.halb--gedreht .halb__bild{justify-content:flex-start}
+@media (max-width:880px){.halb--portraet .halb__bild{justify-content:center !important}}
+
+/* Helle und blaue Abschnitte wechseln sich ab, damit die Seite gegliedert ist */
+.hell{background:var(--weiss)}
+.abschnitt--kopf{padding-bottom:clamp(2.5rem,5vw,4rem) !important}
+
+/* Panorama: randloses Querformat als Atempause */
+.panorama{position:relative;height:clamp(240px,36vh,400px);overflow:hidden}
+.panorama .flaeche{position:absolute;inset:0}
+
+/* Dreier: drei Motive nebeneinander, gleiches Querformat wie die Bloecke */
+.dreier{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.25rem,2.5vw,2.5rem);margin-top:clamp(2.5rem,4vw,3.5rem)}
+.dreier__karte{display:block;text-align:center}
+.dreier__bild{position:relative;aspect-ratio:3/2;overflow:hidden;margin-bottom:1.6rem;padding:0}
+.dreier__bild .flaeche,.dreier__bild .platzhalter{position:absolute;inset:0;transition:transform .8s ease}
+.dreier__karte:hover .dreier__bild .flaeche{transform:scale(1.04)}
+.dreier .bogen{padding:0}
+.dreier__karte h3{font-size:clamp(1.25rem,1.6vw,1.5rem);letter-spacing:.06em;text-transform:uppercase;margin-bottom:.6rem}
+.dreier__karte p{color:var(--tinte-leise);font-weight:300;max-width:34ch;margin:0 auto 1.2rem}
+
+/* Zitat */
+.zitat{max-width:52rem;margin-inline:auto;text-align:center}
+.zitat blockquote{margin:0;padding:0}
+.zitat blockquote p{font-size:clamp(1.5rem,2.6vw,2.3rem);font-weight:300;line-height:1.35;color:var(--tinte);letter-spacing:.01em}
+.zitat blockquote p::before{content:'\201E'}
+.zitat blockquote p::after{content:'\201C'}
+.zitat__quelle{margin-top:1.6rem;font-size:.75rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--grau-warm)}
+
+/* .bogen bleibt als Klasse im Markup, zeichnet aber nichts mehr: alles eckig */
+
+/* Werdegang: Jahr links, Station rechts, feine Trennlinien */
+.vita{list-style:none;margin:1.4rem 0 0;padding:0;max-width:46ch}
+.vita li{
+  display:grid;grid-template-columns:4.5rem 1fr;gap:1rem;
+  padding:.7rem 0;border-bottom:1px solid var(--linie-zart);margin:0;
+  font-size:.9375rem;line-height:1.6;color:var(--tinte-leise);
+}
+.vita li:last-child{border-bottom:0}
+.vita__jahr{font-weight:600;color:var(--tinte);letter-spacing:.02em}
+@media (max-width:560px){.vita li{grid-template-columns:1fr;gap:.2rem}}
+
+/* Zeile mit verwandten Seiten am Seitenende */
+.weiter{list-style:none;display:flex;flex-wrap:wrap;gap:1rem 2.5rem;margin:1.2rem 0 0;padding:0}
+.weiter li{margin:0}
+
+/* Merkmalliste ohne Haken */
+.merkmale{list-style:none;margin:1.6rem 0 0;padding:0;max-width:44ch}
+.merkmale li{padding:.8rem 0;border-top:1px solid var(--linie-zart);color:var(--tinte-leise);margin:0;font-weight:300}
+.merkmale li:last-child{border-bottom:1px solid var(--linie-zart)}
+
+/* --------------------------------------------------------- 10 AUSSAGE */
+.aussage{max-width:72ch;margin-inline:auto;text-align:center}
+.aussage h1,.aussage h2{margin-bottom:.4em}
+.aussage .obenzeile{
+  font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);
+  text-transform:uppercase;color:var(--grau-warm);margin-bottom:1.6rem;
+}
+.aussage .vorspann{margin-inline:auto}
+.aussage .strich{margin-inline:auto}
+
+/* ------------------------------------------------------------- 11 REIHEN */
+/* Statt Karten mit Rahmen: ruhige Zeilen mit Haarlinie */
+.reihen{list-style:none;margin:0;padding:0;max-width:var(--breite);margin-inline:auto}
+.reihen > li{
+  display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,2fr);gap:clamp(1rem,4vw,4rem);
+  padding-block:2.4rem;border-top:1px solid var(--linie);margin:0;align-items:start;
+}
+.reihen > li:last-child{border-bottom:1px solid var(--linie)}
+.reihen h2,.reihen h3{grid-column:1;grid-row:1;margin:0;font-size:clamp(1.25rem,1.9vw,1.6rem);letter-spacing:.02em;text-transform:none;font-weight:300}
+.reihen p{grid-column:2;color:var(--tinte-leise);font-weight:300;margin:0}
+.reihen p + p{margin-top:.6rem}
+.reihen .knopfreihe{grid-column:2;margin-top:1rem}
+.reihen__zahl{display:block;font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);color:var(--rosa-tief);margin-bottom:.5rem}
+.reihen .luecke{display:inline}
+
+/* Ablauf als Schritte */
+.schritte{list-style:none;margin:0;padding:0;counter-reset:schritt;max-width:var(--breite);margin-inline:auto}
+.schritte > li{
+  counter-increment:schritt;display:grid;grid-template-columns:auto 1fr;gap:2rem;
+  padding-block:2.4rem;border-top:1px solid var(--linie);margin:0;
+}
+.schritte > li:last-child{border-bottom:1px solid var(--linie)}
+.schritte > li::before{
+  content:counter(schritt,decimal-leading-zero);
+  font-size:.78rem;font-weight:600;letter-spacing:.1em;color:var(--grau-warm);padding-top:.5rem;min-width:2.5rem;
+}
+.schritte h3{margin-bottom:.4rem}
+.schritte p{color:var(--tinte-leise);font-weight:300}
+
+/* --------------------------------------------------------------- 12 FAQ */
+.faq{max-width:52rem;margin-inline:auto}
+.faq details{border-bottom:1px solid var(--linie-zart)}
+.faq details:first-of-type{border-top:1px solid var(--linie-zart)}
+.faq summary{list-style:none;cursor:pointer;padding:1.4rem 2.5rem 1.4rem 0;position:relative}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary h3{font:inherit;color:inherit;letter-spacing:inherit;margin:0;display:inline;font-size:1.0625rem;font-weight:400;text-transform:none}
+.faq summary::after{
+  content:'';position:absolute;right:.35rem;top:50%;width:11px;height:11px;margin-top:-7px;
+  border-right:1px solid var(--tinte);border-bottom:1px solid var(--tinte);
+  transform:rotate(45deg);transition:transform .3s ease;
+}
+.faq details[open] summary::after{transform:rotate(-135deg);margin-top:-3px}
+.faq__a{padding:0 2.5rem 1.6rem 0;color:var(--tinte-leise);font-weight:300}
+
+/* ------------------------------------------------------- 13 EINBETTUNGEN */
+.einbettung{
+  position:relative;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1rem;text-align:center;background:var(--blau-tief);border-radius:7px;overflow:hidden;
+  padding:2rem 1.5rem;
+}
+.einbettung p{max-width:44ch;color:var(--tinte-leise);font-size:.875rem;line-height:1.55}
+.einbettung iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* Kontaktseite: Angaben und Karte nebeneinander, das spart eine ganze Sektion */
+.kontaktraster{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
+  gap:clamp(1.5rem,3vw,2.5rem);align-items:stretch;
+}
+.kontaktkarten{display:grid;gap:1rem;align-content:start}
+.kontaktkarte{
+  background:var(--weiss);border:1px solid var(--linie-zart);border-radius:7px;
+  padding:1.15rem 1.35rem;
+}
+.kontaktkarte h3{
+  font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);
+  text-transform:uppercase;color:var(--grau-warm);margin:0 0 .5rem;
+}
+.kontaktkarte p{font-size:.9375rem;line-height:1.65;color:var(--tinte-leise);margin:0}
+.kontaktkarte a{border-bottom:1px solid var(--linie-zart);transition:border-color .25s ease}
+.kontaktkarte a:hover,.kontaktkarte a:focus-visible{border-color:var(--tinte);color:var(--tinte)}
+@media (max-width:900px){.kontaktraster{grid-template-columns:1fr}}
+
+/* ----------------------------------------------------------- 14 FORMULAR */
+.formular{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+.formular .feld--breit .knopf{align-self:flex-start;min-width:12rem}
+.feld{display:flex;flex-direction:column;gap:.45rem}
+.feld--breit{grid-column:1 / -1}
+.feld label{font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--grau-warm)}
+/* Felder in derselben Form wie die Knoepfe: heller Kasten, 1,5 px Rand,
+   7 px Radius, beim Fokus dunkler Rand mit weichem Ring. */
+.feld input,.feld select,.feld textarea{
+  font-family:inherit;font-size:1rem;color:var(--tinte);background:var(--weiss);
+  border:1.5px solid var(--linie-zart);border-radius:7px;
+  padding:.7rem .95rem;min-height:48px;
+  transition:border-color .2s ease,box-shadow .2s ease;
+}
+.feld textarea{min-height:140px;resize:vertical;line-height:1.6}
+.feld select{
+  appearance:none;-webkit-appearance:none;cursor:pointer;padding-right:2.4rem;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2322282C' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 1rem center;background-size:12px 8px;
+}
+.feld input::placeholder,.feld textarea::placeholder{color:var(--tinte-hell)}
+.feld input:hover,.feld select:hover,.feld textarea:hover{border-color:var(--linie)}
+.feld input:focus,.feld select:focus,.feld textarea:focus{
+  outline:none;border-color:var(--tinte);box-shadow:0 0 0 4px rgba(34,40,44,.10);
+}
+.zustimmung{
+  grid-column:1 / -1;display:flex;gap:.85rem;align-items:flex-start;
+  background:var(--weiss);border:1.5px solid var(--linie-zart);border-radius:7px;
+  padding:1rem 1.15rem;font-size:.9375rem;color:var(--tinte-leise);
+}
+.zustimmung input{width:22px;height:22px;min-height:0;margin:.1rem 0 0;flex:none;accent-color:var(--tinte)}
+.zustimmung input:focus-visible{outline:2px solid var(--tinte);outline-offset:2px}
+.danke{grid-column:1 / -1;background:var(--weiss);border:1.5px solid var(--linie-zart);border-radius:7px;padding:1.75rem}
+
+/* ------------------------------------------------------ 15 DUNKLER SCHLUSS */
+.dunkel{background:var(--tinte);color:#D8DEE2}
+.dunkel h2,.dunkel h3{color:var(--weiss)}
+.dunkel .label,.dunkel .obenzeile{color:var(--tinte-hell)}
+.dunkel .vorspann,.dunkel p{color:#B9C2C8}
+.dunkel .knopf{border-color:rgba(255,255,255,.55);color:var(--weiss)}
+.dunkel .knopf:hover,.dunkel .knopf:focus-visible{background:var(--weiss);color:var(--tinte);border-color:var(--weiss)}
+.dunkel .knopf--voll{background:var(--weiss);color:var(--tinte);border-color:var(--weiss)}
+.dunkel .knopf--voll:hover,.dunkel .knopf--voll:focus-visible{background:transparent;color:var(--weiss)}
+.dunkel .strich{background:var(--weiss)}
+/* Abschluss: hell und kompakt, damit er sich vom dunklen Fuss absetzt */
+.aufruf{padding-block:clamp(3.5rem,7vw,6rem);background:var(--weiss)}
+.aufruf .aussage{max-width:56rem}
+.aufruf h2{font-size:clamp(1.6rem,2.8vw,2.4rem);line-height:1.2;margin-inline:auto;hyphens:manual}
+.aufruf .knopfreihe{justify-content:center;margin-top:1.8rem}
+
+/* -------------------------------------------------------------- 16 FUSS */
+body > footer .huelle{max-width:none}
+body > footer{background:var(--tinte);color:#B9C2C8;padding-block:clamp(2.5rem,4vw,3.25rem) 1.25rem;border-top:1px solid rgba(255,255,255,.08)}
+body > footer a{color:#D8DEE2;transition:color .25s ease}
+body > footer a:hover,body > footer a:focus-visible{color:var(--weiss)}
+.fuss__raster{display:grid;grid-template-columns:1.6fr repeat(4,minmax(0,1fr));gap:clamp(2rem,4vw,5rem)}
+@media (max-width:1000px){.fuss__raster{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.fuss__raster{grid-template-columns:1fr;gap:1.6rem}}
+.fuss__raster h3{font-size:.68rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--tinte-hell);margin-bottom:.7rem}
+.fuss__raster ul{list-style:none;margin:0;padding:0;font-size:.875rem;line-height:1.55}
+.fuss__raster p{font-size:.875rem;line-height:1.55}
+.fuss__logo{width:auto;height:clamp(48px,5vw,64px)}
+.fuss__unten{
+  margin-top:2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.12);
+  display:flex;flex-wrap:wrap;gap:1rem 1.75rem;align-items:center;font-size:.8125rem;color:#8A9298;
+}
+.fuss__unten a{font-size:.8125rem}
+.fuss__unten button{background:none;border:0;color:#8A9298;font:inherit;font-size:.8125rem;cursor:pointer;padding:0;text-decoration:underline}
+.fuss__unten button:hover,.fuss__unten button:focus-visible{color:var(--weiss)}
+
+/* --------------------------------------------------- 17 BANNER OHNE ROSA */
+.ein-knopf--alle{box-shadow:0 12px 26px -14px rgba(110,101,95,.85), 0 0 0 4px rgba(110,101,95,.16) !important}
+
+/* ------------------------------------------------- 18 OFFENE ANGABEN */
+.luecke{background:#FFF3BF;box-shadow:0 0 0 2px #FFF3BF;border-bottom:1px solid #DFC44A}
+.entwurf{border:1px solid #DFC44A;background:#FFFBEA;padding:1.25rem 1.5rem;margin-bottom:2.5rem;font-size:.9375rem}
+.entwurf strong{display:block;margin-bottom:.35rem}
+
+/* -------------------------------------------------------- 19 BROTKRUMEN */
+.brotkrumen{font-size:.8125rem;color:var(--grau-warm);padding-top:calc(76px + 1.5rem);padding-bottom:1rem}
+.brotkrumen ol{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;margin:0;padding:0}
+.brotkrumen li+li::before{content:'/';margin-right:.5rem;color:var(--linie)}
+
+/* Unterseiten ohne Hero: Platz fuer den festen Kopf */
+main > .abschnitt:first-child{padding-top:calc(76px + clamp(4rem,9vw,7rem))}
+.seitenkopf{padding-top:1.5rem !important;padding-bottom:clamp(3.5rem,7vw,6rem) !important}
+
+/* ------------------------------------------------- 20 EINBLENDEN BEIM SCROLLEN */
+html.js .zeigen{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}
+html.js .zeigen.ist-sichtbar{opacity:1;transform:none}
+html.js .zeigen--bild{transform:none;transition:opacity 1.2s ease}
+
+/* ------------------------------------------------------------ 21 SCHMAL */
+@media (max-width:1180px){.hauptnav{display:none}}
+@media (max-width:880px){
+  .hero{grid-template-columns:1fr}
+  .hero__bild{order:-1;min-height:70vw;background-position:50% 22%}
+  .hero__text{padding-block:2.5rem 3rem}
+  .hero__logo{height:clamp(90px,22vw,120px)}
+  .halb{grid-template-columns:1fr}
+  .halb__bild{order:0 !important;min-height:64vw}
+  .halb__text{order:1 !important;padding-block:2.5rem 3rem}
+  .reihen > li{grid-template-columns:1fr;gap:.8rem}
+  .dreier{grid-template-columns:1fr;gap:3rem}
+  .panorama{height:48vw}
+  .reihen > li > *{grid-column:auto}
+  .formular{grid-template-columns:1fr}
+  .kontaktleiste{
+    top:auto;bottom:0;left:0;right:0;transform:none;flex-direction:row;justify-content:space-around;
+    border:0;border-top:1px solid var(--linie-zart);border-radius:0;
+  }
+  .kontaktleiste a{flex:1;border-bottom:0;border-right:1px solid var(--linie-zart);height:52px}
+  .kontaktleiste a:last-child{border-right:0}
+  body{padding-bottom:52px}
+  .marke{opacity:1;transform:none}
+  body > header{background:rgba(230,237,242,.94);border-bottom-color:var(--linie-zart)}
+  .ao-bf-knopf,.ao-barrierefreiheit__knopf{bottom:66px !important}
+}
+@media (max-width:560px){
+  /* Auf dem Handy ist eine Trennung besser als ein Wort, das aus der Zeile faellt */
+  h1,h2,h3{hyphens:auto;-webkit-hyphens:auto}
+  .halb__text h2,.halb__text h3,.aussage h1,.aussage h2{overflow-wrap:anywhere}
+  .kopf .knopf{display:none}
+  .marke__wort{font-size:.8rem}
+  .schritte > li{grid-template-columns:1fr;gap:.5rem}
+}
+
+/* ------------------------------------------------------ 22 BEWEGUNG AUS */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  .zeigen{opacity:1;transform:none}
+}
+
+/* ------------------------------------------------------------ 23 DRUCK */
+@media print{
+  .kontaktleiste,.menue,body > header,.sprunglinks{display:none !important}
+  body{background:#fff;color:#000}
+  .zeigen{opacity:1;transform:none}
+}
