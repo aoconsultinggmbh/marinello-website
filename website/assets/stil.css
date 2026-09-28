@@ -605,7 +605,7 @@ html.js .zeigen--bild{transform:none;transition:opacity 1.2s ease}
 @media (max-width:1180px){.hauptnav{display:none}}
 @media (max-width:880px){
   .hero{grid-template-columns:1fr}
-  .hero__bild{order:-1;min-height:70vw;background-position:50% 22%}
+  .hero__bild{order:-1;min-height:70vw;background-position:var(--fokus,50% 22%)}
   .hero__text{padding-block:2.5rem 3rem}
   .hero__logo{height:clamp(90px,22vw,120px)}
   .halb{grid-template-columns:1fr}
