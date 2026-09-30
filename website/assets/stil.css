@@ -381,31 +381,20 @@ body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;tr
 /* Rahmen-Variante: Foto eingesetzt, Textseite auf leicht hellerer Flaeche.
    Im Wechsel mit der randlosen Variante wirkt die Seite komponiert statt
    nur links-rechts gestapelt. */
-/* Portraet-Variante: das Foto fuellt die halbe Breite randlos bis zur
-   Seitenkante, buendig mit den Foto-Bloecken darueber und darunter. Die Hoehe
-   ist begrenzt, der Ausschnitt sitzt auf --fokus (Gesicht). Unter dem Foto
-   koennen Listen stehen (Zertifikate, Mitgliedschaften), eingerueckt wie der
-   Text rechts, damit beide Spalten aehnlich hoch werden. */
-.halb--portraet .halb__bild{position:static;display:block;min-height:0;padding:0}
-.halb--portraet .halb__bild .flaeche,
-.halb--portraet .halb__bild .platzhalter{
-  position:static;width:100%;height:auto;aspect-ratio:5/6;   /* nicht von der Fensterhoehe abhaengig */
-}
+/* Portraets der Behandlerinnen: gleiches Format wie alle anderen Foto-Text-
+   Bloecke (halbe Breite, randlos, Hoehe folgt dem Text). Der Ausschnitt sitzt
+   auf --fokus (Gesicht). So bleibt das Schachbrett der Seite erhalten und
+   kein Foto wird auf grossen Bildschirmen groesser als die uebrigen. */
 .halb--portraet .halb__text{justify-content:flex-start}
+.halb--portraet .halb__text .vita{max-width:none}
+
 /* Leiste unter Foto und Text ueber die ganze Breite: links Zertifikate,
    rechts Mitgliedschaften, je die Haelfte, buendig mit den Spalten darueber */
-.halb__leiste{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(3rem,12vw,13rem);padding:0 clamp(1.5rem,6vw,6.5rem) clamp(2.5rem,4vw,3.5rem)}   /* Luecke = 2x Rand, so beginnt rechts genau unter dem Text */
+.halb__leiste{order:3;grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(3rem,12vw,13rem);padding:0 clamp(1.5rem,6vw,6.5rem) clamp(2.5rem,4vw,3.5rem);border-top:1px solid var(--linie-zart)}
 .halb__leiste .merkmale{max-width:none}
 .halb__leiste h3.unter{font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--grau-warm);margin:2.2rem 0 .6rem}
 .halb__leiste .merkmale li{font-size:1rem}
-/* Handy: Foto, dann Name und Text, erst danach die Listen */
-@media (max-width:880px){
-  .halb--portraet{display:flex;flex-direction:column}
-  .halb--portraet .halb__bild{display:contents}
-  .halb--portraet .halb__bild .flaeche{order:0;width:100%;height:auto;aspect-ratio:4/5}
-  .halb--portraet .halb__text{order:1}
-  .halb--portraet .halb__leiste{order:2;grid-template-columns:1fr}
-}
+@media (max-width:880px){.halb__leiste{grid-template-columns:1fr;order:3 !important}}
 
 /* Helle und blaue Abschnitte wechseln sich ab, damit die Seite gegliedert ist */
 .hell{background:var(--weiss)}
