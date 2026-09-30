@@ -5,17 +5,18 @@
    Halbe-Halbe im Schachbrett, grosse Versal-Ueberschriften, viel Luft,
    ovale Knoepfe nur mit Umrandung, dunkler Abschluss mit Terminaufruf.
    Kein Pink, kein Lila. Akzente nur Warm Grey und ein Hauch Rosa.
-   Version 0.3 | 30.09.2026: Farben aus dem Corporate Design der Praxis
-   (Logokoffer, m2c): Blau #BCD4F0, Grau #827262. Das Blau der bisherigen
-   Website (#96AED5) dient als tieferer Ton fuer Flaechen und Akzente.
-   Wunsch der Kundin: helleres, klar erkennbares Blau statt Grau-Blau.
+   Version 0.4 | 30.09.2026: Farben aus dem Corporate Design der Praxis
+   (Logokoffer, m2c): Blau #BCD4F0, Grau #827262. Grundflaeche ist ein
+   aufgehelltes CD-Blau (#DCE7F6, Wunsch Admir: heller), das volle CD-Blau
+   liegt auf Bildmasken, das Blau der alten Website (#96AED5) auf Linien.
    ============================================================================ */
 
 /* ---------------------------------------------------------------- 1 TOKENS */
 :root{
-  --blau:        #BCD4F0;   /* Grundfarbe der ganzen Seite, CD-Blau der Praxis */
-  --blau-tief:   #96AED5;   /* Platzhalter, Bildmasken, Blau der alten Website */
-  --blau-hell:   #DCE8F7;   /* leicht hellere Flaeche fuer Rahmen-Bloecke */
+  --blau:        #DCE7F6;   /* Grundfarbe der ganzen Seite: aufgehelltes CD-Blau */
+  --blau-tief:   #BCD4F0;   /* Platzhalter, Bildmasken: CD-Blau der Praxis */
+  --blau-hell:   #EAF1FA;   /* leicht hellere Flaeche fuer Rahmen-Bloecke */
+  --blau-akzent: #96AED5;   /* Linien und Akzente, Blau der alten Website */
   --blau-text:   #3F5E8F;   /* Akzentschrift in Blau, lesbar auf Blau und Weiss */
   --weiss:       #FFFFFF;
 
@@ -110,7 +111,7 @@ h4{font-size:1.0625rem;font-weight:600}
 .mitte .vorspann{margin-inline:auto}
 
 /* kurze Linie unter einer Ueberschrift, wie bei audent */
-.strich{width:56px;height:2px;background:var(--blau-tief);margin:1.6rem 0 1.8rem}
+.strich{width:56px;height:2px;background:var(--blau-akzent);margin:1.6rem 0 1.8rem}
 .mitte .strich{margin-inline:auto}
 
 /* Knopf im Stil der Knoepfe im Einwilligungsbanner: leicht abgerundetes
@@ -199,11 +200,11 @@ h4{font-size:1.0625rem;font-weight:600}
 /* Ueber dem Hero durchsichtig, nach dem ersten Scrollen mit Flaeche */
 body > header{
   position:fixed;top:0;left:0;right:0;z-index:800;
-  background:rgba(188,212,240,.92);backdrop-filter:saturate(1.2) blur(12px);border-bottom:1px solid transparent;
+  background:rgba(220,231,246,.92);backdrop-filter:saturate(1.2) blur(12px);border-bottom:1px solid transparent;
   transition:background-color .35s ease,border-color .35s ease,box-shadow .35s ease;
 }
 body > header.ist-gescrollt{
-  background:rgba(188,212,240,.97);backdrop-filter:saturate(1.2) blur(12px);
+  background:rgba(220,231,246,.97);backdrop-filter:saturate(1.2) blur(12px);
   border-bottom-color:var(--linie-zart);
 }
 .kopf{
@@ -384,12 +385,12 @@ body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;tr
    halbe Breite gezogen, sonst wird das Gesicht riesig. Stattdessen steht es
    als Hochformat in der Spalte, mit Luft ringsum. */
 .halb--portraet .halb__bild{
-  position:static;display:flex;align-items:center;justify-content:flex-end;
+  position:static;display:flex;align-items:flex-start;justify-content:flex-end;
   min-height:0;padding:clamp(2rem,5vw,4rem) clamp(1.5rem,4vw,4rem);
 }
 .halb--portraet .halb__bild .flaeche,
 .halb--portraet .halb__bild .platzhalter{
-  position:static;width:min(100%,360px);aspect-ratio:3/4;
+  position:static;width:min(100%,560px);aspect-ratio:3/4;
 }
 .halb--portraet.halb--gedreht .halb__bild{justify-content:flex-start}
 @media (max-width:880px){.halb--portraet .halb__bild{justify-content:center !important}}
@@ -643,7 +644,7 @@ html.js .zeigen--bild{transform:none;transition:opacity 1.2s ease}
   .kontaktleiste a:last-child{border-right:0}
   body{padding-bottom:52px}
   .marke{opacity:1;transform:none}
-  body > header{background:rgba(188,212,240,.94);border-bottom-color:var(--linie-zart)}
+  body > header{background:rgba(220,231,246,.94);border-bottom-color:var(--linie-zart)}
   .ao-bf-knopf,.ao-barrierefreiheit__knopf{bottom:66px !important}
 }
 @media (max-width:560px){
