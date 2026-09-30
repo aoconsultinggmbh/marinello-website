@@ -323,7 +323,13 @@ body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;tr
   min-width:0;display:flex;flex-direction:column;justify-content:center;
   padding:clamp(5.6rem,11.2vh,7.2rem) clamp(1.5rem,6vw,6rem) clamp(2.4rem,4.8vh,4rem);
 }
-.hero__logo{width:auto;height:clamp(90px,10vw,140px);margin-bottom:clamp(1.75rem,3.5vh,2.5rem)}
+.hero__logo{width:auto;height:clamp(90px,10vw,140px);margin:0 auto clamp(1.75rem,3.5vh,2.5rem)}
+/* Kopfbereich mittig: Logo, Titel, Text und Knoepfe zentriert (Wunsch der Kundin) */
+.hero__text{text-align:center;align-items:center}
+.hero__claim{margin-inline:auto}
+.hero .knopfreihe{justify-content:center}
+.hero .status{width:max-content;margin-inline:auto}
+.hero .status__panel{left:50%;transform:translateX(-50%)}
 .hero__claim{
   font-size:clamp(1.1rem,1.3vw,1.25rem);font-weight:300;line-height:1.6;
   color:var(--tinte-leise);max-width:42ch;margin-bottom:1.8rem;
