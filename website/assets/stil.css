@@ -381,26 +381,29 @@ body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;tr
 /* Rahmen-Variante: Foto eingesetzt, Textseite auf leicht hellerer Flaeche.
    Im Wechsel mit der randlosen Variante wirkt die Seite komponiert statt
    nur links-rechts gestapelt. */
-/* Portraet-Variante: ein hochformatiges Bild wird nicht randlos ueber die
-   halbe Breite gezogen, sonst wird das Gesicht riesig. Stattdessen steht es
-   als Hochformat in der Spalte, mit Luft ringsum. */
-.halb--portraet .halb__bild{
-  position:static;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-start;
-  min-height:0;padding:clamp(2rem,5vw,4rem) clamp(1.5rem,4vw,4rem);
+/* Portraet-Variante: das Foto fuellt die halbe Breite randlos bis zur
+   Seitenkante, buendig mit den Foto-Bloecken darueber und darunter. Die Hoehe
+   ist begrenzt, der Ausschnitt sitzt auf --fokus (Gesicht). Unter dem Foto
+   koennen Listen stehen (Zertifikate, Mitgliedschaften), eingerueckt wie der
+   Text rechts, damit beide Spalten aehnlich hoch werden. */
+.halb--portraet .halb__bild{position:static;display:block;min-height:0;padding:0}
+.halb--portraet .halb__bild .flaeche,
+.halb--portraet .halb__bild .platzhalter{
+  position:static;width:100%;height:clamp(420px,62vh,700px);
 }
-/* Listen unter dem Portraet (Zertifikate, Mitgliedschaften): gleiche Breite wie
-   das Foto, damit beide Spalten aehnlich hoch werden und die Seite kuerzer ist */
 .halb--portraet .halb__text{justify-content:flex-start}
-.halb__unterbild{width:min(100%,560px)}
+.halb__unterbild{padding:.5rem clamp(1.5rem,6vw,6.5rem) clamp(2rem,4vw,3rem)}
 .halb__unterbild .merkmale{max-width:none}
 .halb__unterbild h3.unter{font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--grau-warm);margin:2.2rem 0 .6rem}
 .halb__unterbild .merkmale li{font-size:1rem}
-.halb--portraet .halb__bild .flaeche,
-.halb--portraet .halb__bild .platzhalter{
-  position:static;width:min(100%,560px);aspect-ratio:3/4;
+/* Handy: Foto, dann Name und Text, erst danach die Listen */
+@media (max-width:880px){
+  .halb--portraet{display:flex;flex-direction:column}
+  .halb--portraet .halb__bild{display:contents}
+  .halb--portraet .halb__bild .flaeche{order:0;width:100%;height:auto;aspect-ratio:4/5}
+  .halb--portraet .halb__text{order:1}
+  .halb--portraet .halb__unterbild{order:2;padding-top:0}
 }
-.halb--portraet.halb--gedreht .halb__bild{align-items:flex-start}
-@media (max-width:880px){.halb--portraet .halb__bild{align-items:center !important}}
 
 /* Helle und blaue Abschnitte wechseln sich ab, damit die Seite gegliedert ist */
 .hell{background:var(--weiss)}
