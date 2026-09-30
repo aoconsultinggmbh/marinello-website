@@ -498,6 +498,42 @@ body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;tr
 .faq details[open] summary::after{transform:rotate(-135deg);margin-top:-3px}
 .faq__a{padding:0 2.5rem 1.6rem 0;color:var(--tinte-leise);font-weight:300}
 
+/* ------------------------------------------------------- 13b SCHIEBER */
+/* Bildergalerie: die Spur scrollt waagerecht und rastet pro Bild ein, am
+   Handy per Wischen, am Rechner per Pfeil. Scrollbalken ausgeblendet. */
+.schieber{margin-top:1rem}
+.schieber__rahmen{position:relative}
+.schieber__spur{
+  list-style:none;margin:0;padding:0;display:flex;gap:clamp(.75rem,1.5vw,1.25rem);
+  overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.schieber__spur::-webkit-scrollbar{display:none}
+.schieber__folie{
+  flex:0 0 calc((100% - clamp(.75rem,1.5vw,1.25rem)) / 2);scroll-snap-align:start;margin:0;
+}
+.schieber__folie picture{display:block;aspect-ratio:3/2;overflow:hidden;background:var(--blau-tief);border-radius:7px}
+.schieber__folie img{width:100%;height:100%;object-fit:cover}
+.schieber__pfeil{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--linie-zart);
+  background:rgba(255,255,255,.92);color:var(--tinte);font-size:1.6rem;line-height:1;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 8px 20px -10px rgba(34,40,44,.6);transition:background-color .2s ease,color .2s ease;
+}
+.schieber__pfeil:hover,.schieber__pfeil:focus-visible{background:var(--tinte);color:var(--weiss)}
+.schieber__pfeil--zurueck{left:.6rem}
+.schieber__pfeil--vor{right:.6rem}
+.schieber__pfeil[disabled]{opacity:.35;cursor:default}
+.schieber__punkte{list-style:none;display:flex;justify-content:center;gap:.5rem;margin:1rem 0 0;padding:0}
+.schieber__punkte li{width:7px;height:7px;border-radius:50%;background:var(--linie);margin:0;transition:background-color .2s ease,transform .2s ease}
+.schieber__punkte li[data-aktiv]{background:var(--tinte);transform:scale(1.3)}
+@media (max-width:880px){
+  .schieber__folie{flex-basis:88%}
+  .schieber__pfeil{display:none}
+}
+@media (prefers-reduced-motion:reduce){.schieber__spur{scroll-behavior:auto}}
+
 /* ------------------------------------------------------- 13 EINBETTUNGEN */
 .einbettung{
   position:relative;min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;

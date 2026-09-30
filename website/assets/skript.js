@@ -427,6 +427,38 @@
     el.textContent = String(new Date().getFullYear());
   });
 
+  /* ------------------------------------------------------------ Schieber
+     Bildergalerie (Team-Impressionen). Pfeile scrollen die Spur um eine
+     Bildbreite, die Punkte zeigen die Position. Wischen macht der Browser. */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-schieber]'), function (sch) {
+    var spur = sch.querySelector('[data-schieber-spur]');
+    var folien = spur ? spur.children : [];
+    var zurueck = sch.querySelector('[data-schieber-zurueck]');
+    var vor = sch.querySelector('[data-schieber-vor]');
+    var punkte = sch.querySelector('[data-schieber-punkte]');
+    if (!spur || !folien.length) return;
+    var schritt = function () { return folien[0].getBoundingClientRect().width + (parseFloat(getComputedStyle(spur).columnGap || getComputedStyle(spur).gap) || 0); };
+    var aktuell = function () { return Math.round(spur.scrollLeft / schritt()); };
+    if (punkte) {
+      for (var i = 0; i < folien.length; i++) { punkte.appendChild(document.createElement('li')); }
+    }
+    var zeigen = function () {
+      var k = aktuell();
+      if (punkte) {
+        Array.prototype.forEach.call(punkte.children, function (p, i) {
+          if (i === k) p.setAttribute('data-aktiv', ''); else p.removeAttribute('data-aktiv');
+        });
+      }
+      if (zurueck) zurueck.disabled = spur.scrollLeft <= 2;
+      if (vor) vor.disabled = spur.scrollLeft + spur.clientWidth >= spur.scrollWidth - 2;
+    };
+    if (zurueck) zurueck.addEventListener('click', function () { spur.scrollBy({ left: -schritt(), behavior: 'smooth' }); });
+    if (vor) vor.addEventListener('click', function () { spur.scrollBy({ left: schritt(), behavior: 'smooth' }); });
+    spur.addEventListener('scroll', zeigen, { passive: true });
+    window.addEventListener('resize', zeigen);
+    zeigen();
+  });
+
   /* Den Widerruf in der Fusszeile behandelt einwilligung.js selbst,
      ueber das Attribut data-einwilligung-oeffnen. Hier nichts weiter noetig. */
 })();
