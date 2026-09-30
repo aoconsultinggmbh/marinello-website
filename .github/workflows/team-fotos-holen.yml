@@ -16,14 +16,22 @@ jobs:
       - name: Fotos laden und in Web-Groesse bringen
         run: |
           set -e
+          python3 -m pip install --quiet pillow
           cd website/img
           n=1
           for i in 022 092 064 097 030 039 050 012; do
             q="https://karriere-kfo-marinello.de/wp-content/uploads/2025/03/Kieferorthopaedische-Praxis-Dr-Ivana-Marinello-Butzbach-Karriere$i.webp"
             curl -fsSL -A "Mozilla/5.0" -o "quelle-$i.webp" "$q"
-            ziel="kieferorthopaedie-butzbach-team-impression-0$n"
-            convert "quelle-$i.webp" -resize 1600x1067 -quality 84 -strip "$ziel.jpg"
-            convert "quelle-$i.webp" -resize 1600x1067 -quality 80 -define webp:method=6 "$ziel.webp"
+            python3 - "quelle-$i.webp" "kieferorthopaedie-butzbach-team-impression-0$n" <<'PY'
+          import sys
+          from PIL import Image
+          q, ziel = sys.argv[1], sys.argv[2]
+          im = Image.open(q).convert('RGB')
+          im.thumbnail((1600, 1600), Image.LANCZOS)
+          im.save(ziel + '.jpg', quality=84, optimize=True, progressive=True)
+          im.save(ziel + '.webp', quality=80, method=6)
+          print(ziel, im.size)
+          PY
             rm "quelle-$i.webp"
             n=$((n+1))
           done
