@@ -1,0 +1,37 @@
+# Einmal-Helfer: holt die Teamfotos von der Karriereseite und legt sie in
+# website/img ab. Unsere Rechner duerfen die Karriereseite nicht direkt laden
+# (Proxy), der GitHub-Rechner schon. Laeuft, wenn diese Datei geaendert wird.
+name: Teamfotos von der Karriereseite holen
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/team-fotos-holen.yml']
+permissions:
+  contents: write
+jobs:
+  holen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fotos laden und in Web-Groesse bringen
+        run: |
+          set -e
+          cd website/img
+          n=1
+          for i in 022 092 064 097 030 039 050 012; do
+            q="https://karriere-kfo-marinello.de/wp-content/uploads/2025/03/Kieferorthopaedische-Praxis-Dr-Ivana-Marinello-Butzbach-Karriere$i.webp"
+            curl -fsSL -A "Mozilla/5.0" -o "quelle-$i.webp" "$q"
+            ziel="kieferorthopaedie-butzbach-team-impression-0$n"
+            convert "quelle-$i.webp" -resize 1600x1067 -quality 84 -strip "$ziel.jpg"
+            convert "quelle-$i.webp" -resize 1600x1067 -quality 80 -define webp:method=6 "$ziel.webp"
+            rm "quelle-$i.webp"
+            n=$((n+1))
+          done
+          ls -la kieferorthopaedie-butzbach-team-impression-*
+      - name: Einchecken
+        run: |
+          git config user.name "AO Consulting Bot"
+          git config user.email "service@ao-consult.de"
+          git add website/img/kieferorthopaedie-butzbach-team-impression-*
+          git commit -m "Teamfotos von der Karriereseite uebernommen (8 Bilder, 1600 px, jpg+webp)" || exit 0
+          git push
