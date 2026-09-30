@@ -392,18 +392,19 @@ body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;tr
   position:static;width:100%;height:auto;aspect-ratio:5/6;   /* nicht von der Fensterhoehe abhaengig */
 }
 .halb--portraet .halb__text{justify-content:flex-start}
-.halb__unterbild{padding:.5rem clamp(1.5rem,6vw,6.5rem) clamp(2rem,4vw,3rem);display:grid;grid-template-columns:1fr 1fr;gap:0 clamp(1.5rem,3vw,3rem)}
-@media (max-width:1100px){.halb__unterbild{grid-template-columns:1fr}}
-.halb__unterbild .merkmale{max-width:none}
-.halb__unterbild h3.unter{font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--grau-warm);margin:2.2rem 0 .6rem}
-.halb__unterbild .merkmale li{font-size:1rem}
+/* Leiste unter Foto und Text ueber die ganze Breite: links Zertifikate,
+   rechts Mitgliedschaften, je die Haelfte, buendig mit den Spalten darueber */
+.halb__leiste{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(3rem,12vw,13rem);padding:0 clamp(1.5rem,6vw,6.5rem) clamp(2.5rem,4vw,3.5rem)}   /* Luecke = 2x Rand, so beginnt rechts genau unter dem Text */
+.halb__leiste .merkmale{max-width:none}
+.halb__leiste h3.unter{font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--grau-warm);margin:2.2rem 0 .6rem}
+.halb__leiste .merkmale li{font-size:1rem}
 /* Handy: Foto, dann Name und Text, erst danach die Listen */
 @media (max-width:880px){
   .halb--portraet{display:flex;flex-direction:column}
   .halb--portraet .halb__bild{display:contents}
   .halb--portraet .halb__bild .flaeche{order:0;width:100%;height:auto;aspect-ratio:4/5}
   .halb--portraet .halb__text{order:1}
-  .halb--portraet .halb__unterbild{order:2;padding-top:0}
+  .halb--portraet .halb__leiste{order:2;grid-template-columns:1fr}
 }
 
 /* Helle und blaue Abschnitte wechseln sich ab, damit die Seite gegliedert ist */
