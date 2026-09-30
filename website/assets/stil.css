@@ -385,15 +385,22 @@ body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;tr
    halbe Breite gezogen, sonst wird das Gesicht riesig. Stattdessen steht es
    als Hochformat in der Spalte, mit Luft ringsum. */
 .halb--portraet .halb__bild{
-  position:static;display:flex;align-items:flex-start;justify-content:flex-end;
+  position:static;display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-start;
   min-height:0;padding:clamp(2rem,5vw,4rem) clamp(1.5rem,4vw,4rem);
 }
+/* Listen unter dem Portraet (Zertifikate, Mitgliedschaften): gleiche Breite wie
+   das Foto, damit beide Spalten aehnlich hoch werden und die Seite kuerzer ist */
+.halb--portraet .halb__text{justify-content:flex-start}
+.halb__unterbild{width:min(100%,560px)}
+.halb__unterbild .merkmale{max-width:none}
+.halb__unterbild h3.unter{font-size:.72rem;font-weight:600;letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--grau-warm);margin:2.2rem 0 .6rem}
+.halb__unterbild .merkmale li{font-size:1rem}
 .halb--portraet .halb__bild .flaeche,
 .halb--portraet .halb__bild .platzhalter{
   position:static;width:min(100%,560px);aspect-ratio:3/4;
 }
-.halb--portraet.halb--gedreht .halb__bild{justify-content:flex-start}
-@media (max-width:880px){.halb--portraet .halb__bild{justify-content:center !important}}
+.halb--portraet.halb--gedreht .halb__bild{align-items:flex-start}
+@media (max-width:880px){.halb--portraet .halb__bild{align-items:center !important}}
 
 /* Helle und blaue Abschnitte wechseln sich ab, damit die Seite gegliedert ist */
 .hell{background:var(--weiss)}
