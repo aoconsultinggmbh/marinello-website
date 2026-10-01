@@ -570,6 +570,7 @@ body > header.ist-gescrollt .marke,body > header.immer-marke .marke{opacity:1;tr
 
 /* ----------------------------------------------------------- 14 FORMULAR */
 .formular{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+.formular[hidden]{display:none}
 .formular .feld--breit .knopf{align-self:flex-start;min-width:12rem}
 .feld{display:flex;flex-direction:column;gap:.45rem}
 .feld--breit{grid-column:1 / -1}
