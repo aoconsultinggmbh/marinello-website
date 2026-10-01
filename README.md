@@ -18,18 +18,22 @@ Webseite der kieferorthopädischen Praxis Dr. Marinello, Wetzlarer Straße 28,
 Die vollständige Liste steht in `doku/checkliste-livegang.md`. Offen sind
 zusätzlich diese projekteigenen Punkte:
 
-1. **Das Kontaktformular verschickt nichts.** `assets/skript.js` blendet nur das
-   Formular aus und zeigt einen Dank. Jede Anfrage geht damit verloren.
-   `anfrage-senden.php` liegt vorbereitet im Projekt und muss angeschlossen werden,
-   Empfängeradresse mit der Praxis abstimmen.
-2. **Foto fehlt:** auf `ueber-uns.html` steht sichtbar ein Platzhalter
-   „Foto fehlt: dr-wiebke-krokos". Bild anfordern oder den Abschnitt entfernen.
-3. **Besucherzählung:** Seite in Matomo anlegen, Nummer in
-   `assets/js/statistik.js` eintragen und das Skript auf allen Seiten einbinden.
-4. **Weiterleitungen:** die bestehende Seite unter kfo-marinello.de auslesen und
-   die alten Adressen in die `.htaccess` eintragen.
-5. Die www-Umleitung in der `.htaccess` ist auskommentiert und wird erst am
-   Livegang-Tag freigeschaltet.
+Stand 01.10.2026:
+
+1. ~~Kontaktformular~~ erledigt: schickt per `anfrage-senden.php` an
+   praxis@kfo-marinello.de, Rückfallweg Mailprogramm. Testanfrage auf dem
+   echten Server steht noch aus.
+2. ~~Foto Dr. Krokos~~ erledigt.
+3. **Impressum: Berufshaftpflicht-Versicherung fehlt** (Name, Sitz, Geltungsraum).
+   Bei der Praxis erfragen. Steht gelb markiert auf der Seite.
+4. Datenschutzbeauftragter: laut Admir keiner benannt, Hinweis entfernt.
+   Von der Praxis bestätigen lassen.
+5. Vertrag zur Auftragsverarbeitung mit All-Inkl im KAS abschließen – der
+   Datenschutztext sagt bereits, dass er besteht.
+6. Besucherzählung (Matomo): noch nicht entschieden, nicht eingebunden.
+7. ~~Weiterleitungen~~ erledigt: 48 alte Adressen in der `.htaccess`.
+8. Die www-Umleitung in der `.htaccess` ist auskommentiert und wird erst am
+   Livegang-Tag freigeschaltet, nachdem das Zertifikat da ist.
 
 ## Was schon passt
 

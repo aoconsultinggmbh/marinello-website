@@ -405,11 +405,12 @@
         <div class="strich"></div>
         <p class="vorspann">Wir melden uns zeitnah zurück. Bitte senden Sie uns über dieses Formular keine Gesundheitsdaten.</p>
       </div>
-      <div class="entwurf">
-        <strong>Hinweis zum Entwurf.</strong>
-        Das Formular verschickt in dieser Vorschau noch nichts. Es prüft die Pflichtfelder und zeigt danach eine Bestätigung. Vor dem Livegang wird der Versandweg eingerichtet.
-      </div>
-      <form class="formular zeigen" data-formular novalidate>
+      <form class="formular zeigen" data-formular action="anfrage-senden.php" method="post" novalidate>
+        <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+          <label for="website">Bitte leer lassen</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <input type="hidden" name="zeit" value="">
         <div class="feld">
           <label for="anrede">Anrede</label>
           <select id="anrede" name="anrede">
@@ -447,9 +448,13 @@
           <button class="knopf knopf--voll" type="submit">Absenden</button>
         </div>
       </form>
+      <div class="danke" id="formular-fehler" hidden role="alert">
+        <h3>Das hat leider nicht geklappt</h3>
+        <p>Ihre Nachricht konnte nicht verschickt werden. Wir öffnen stattdessen Ihr E-Mail-Programm. Sie erreichen uns auch telefonisch unter <a href="tel:+49603364422">06033 6 44 22</a> oder per E-Mail an <a href="mailto:praxis@kfo-marinello.de">praxis@kfo-marinello.de</a>.</p>
+      </div>
       <div class="danke" id="formular-danke" hidden>
         <h3>Vielen Dank für Ihre Nachricht</h3>
-        <p>Wir haben Ihre Anfrage erhalten und melden uns zeitnah bei Ihnen zurück. In dieser Vorschau wird noch nichts versendet.</p>
+        <p>Wir haben Ihre Anfrage erhalten und melden uns zeitnah bei Ihnen zurück.</p>
       </div>
     </div>
   </section>

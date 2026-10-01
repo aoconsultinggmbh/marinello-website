@@ -137,12 +137,54 @@
   /* ------------------------------------------------------------- Formular */
   var formular = document.querySelector('[data-formular]');
   if (formular) {
+    /* Zeitsperre: Startzeit merken. Wer schneller als 3 Sekunden absendet,
+       ist ein Roboter (Pruefung in anfrage-senden.php). */
+    var zeitFeld = formular.querySelector('[name="zeit"]');
+    if (zeitFeld) { zeitFeld.value = Math.floor(Date.now() / 1000); }
+
+    var zeigen = function (id) {
+      var el = document.getElementById(id);
+      formular.hidden = true;
+      if (el) { el.hidden = false; el.setAttribute('tabindex', '-1'); el.focus(); }
+    };
+    /* Rueckfallweg: klappt der Versand nicht, oeffnet sich das Mailprogramm
+       mit der fertigen Nachricht. So geht keine Anfrage verloren. */
+    var perMail = function () {
+      var f = formular.elements;
+      var text = [
+        'Anrede: ' + f.anrede.value,
+        'Name: ' + f.vorname.value + ' ' + f.nachname.value,
+        'E-Mail: ' + f.email.value,
+        'Telefon: ' + f.telefon.value,
+        '',
+        f.nachricht.value
+      ].join('\n');
+      window.location.href = 'mailto:praxis@kfo-marinello.de?subject=' +
+        encodeURIComponent('Anfrage über die Webseite') + '&body=' + encodeURIComponent(text);
+    };
+
     formular.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!formular.checkValidity()) { formular.reportValidity(); return; }
-      var danke = document.getElementById('formular-danke');
-      formular.hidden = true;
-      if (danke) { danke.hidden = false; danke.setAttribute('tabindex', '-1'); danke.focus(); }
+      /* Pflichtfelder, zweite von drei Pruefungen (Browser, hier, Server) */
+      var f = formular.elements;
+      var leer = ['vorname', 'nachname', 'email', 'nachricht'].some(function (n) {
+        return !f[n].value.trim();
+      });
+      if (leer || !f.datenschutz.checked || !formular.checkValidity()) { formular.reportValidity(); return; }
+
+      var knopf = formular.querySelector('[type="submit"]');
+      if (knopf) { knopf.disabled = true; knopf.textContent = 'Wird gesendet …'; }
+
+      fetch(formular.getAttribute('action'), { method: 'POST', body: new FormData(formular) })
+        .then(function (r) { return r.json(); })
+        .then(function (antwort) {
+          if (antwort && antwort.ok) { zeigen('formular-danke'); }
+          else { throw new Error('Versand fehlgeschlagen'); }
+        })
+        .catch(function () {
+          zeigen('formular-fehler');
+          perMail();
+        });
     });
   }
 

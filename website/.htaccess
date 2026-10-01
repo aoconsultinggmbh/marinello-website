@@ -24,9 +24,57 @@ RewriteRule ^ - [L]
 # Achtung: Heisst eine alte Seite genauso wie unser Versand-Skript
 # (z. B. /kontakt.php), zuerst das Skript umbenennen.
 #
-# Redirect 301 /index.php        /
-# Redirect 301 /ueber-uns.php    /ueber-uns.html
-# Redirect 301 /kontakt.php      /#kontakt
+# Ausgelesen am 01.10.2026 aus der sitemap.xml der alten Seite (51 Adressen).
+# /index.html, /impressum.html und /datenschutz.html heissen gleich und
+# brauchen keine Weiterleitung. Kein Namenskonflikt mit anfrage-senden.php.
+Redirect 301 /ueber-uns/                                                     /ueber-uns.html
+Redirect 301 /ivana_marinello.html                                           /ueber-uns.html
+Redirect 301 /team.html                                                      /ueber-uns.html
+Redirect 301 /impressionen.html                                              /ueber-uns.html
+Redirect 301 /ganzheitliches_konzept.html                                    /ueber-uns.html
+Redirect 301 /ganzheitliches-konzept.html                                    /ueber-uns.html
+Redirect 301 /kfo-kinder/                                                    /leistungen-kinder.html
+Redirect 301 /herausnehmbare-zahnspange-fuer-kinder-und-jugendliche.html     /leistungen-kinder.html
+Redirect 301 /behandlungsablauf-fuer-kinder-und-jugendliche.html             /behandlungsablauf.html
+Redirect 301 /behandlungsablauf-fuer-erwachsene.html                         /behandlungsablauf.html
+Redirect 301 /intraoralscanner.html                                          /leistungen-digitaler-abdruck.html
+Redirect 301 /intraoralscanner1.html                                         /leistungen-digitaler-abdruck.html
+Redirect 301 /intraoralscanner-erwachsene.html                               /leistungen-digitaler-abdruck.html
+Redirect 301 /computergestuetzte-analysen-bei-kindern-und-jugendlichen.html  /leistungen-jugendliche.html
+Redirect 301 /stabilisierung-der-zaehne-bei-kindern-und-jugendlichen.html    /leistungen-jugendliche.html
+Redirect 301 /feste-zahnspange-fuer-kinder-und-jugendliche.html              /leistungen-feste-zahnspange.html
+Redirect 301 /feste-zahnspange-fuer-erwachsenen.html                         /leistungen-feste-zahnspange.html
+Redirect 301 /incognito-oder-lingualbehandlung-fuer-kinder.html              /leistungen-feste-zahnspange.html
+Redirect 301 /incognito-oder-lingualbehandlung-fuer-erwachsene.html          /leistungen-feste-zahnspange.html
+Redirect 301 /vorteile-der-incognito-oder-lingualbehandlung.html             /leistungen-feste-zahnspange.html
+Redirect 301 /unsichtbare-zahnspange-fuer-kinder-und-jugendlichen/           /leistungen-aligner.html
+Redirect 301 /unsichtbare-zahnspange-fuer-erwachsene/                        /leistungen-aligner.html
+Redirect 301 /vorteile-einer-unsichtbaren-zahnspange/                        /leistungen-aligner.html
+Redirect 301 /invisalign-teen-die-durchsichtige-schiene-fuer-teenager.html   /leistungen-aligner.html
+Redirect 301 /invisalign-die-durchsichtige-zahnschiene-fuer-erwachsene.html  /leistungen-aligner.html
+Redirect 301 /vorteile-der-durchsichtigen-zahnschiene-von-invisalign.html    /leistungen-aligner.html
+Redirect 301 /kfo-erwachsene/                                                /leistungen-erwachsene.html
+Redirect 301 /computergestuetzte-analysen-bei-erwachsenen.html               /leistungen-erwachsene.html
+Redirect 301 /kieferchirurgische-und-kieferorthopaedische-behandlung.html    /leistungen-erwachsene.html
+Redirect 301 /stabilisierung-der-zaehne-bei-erwachsenen.html                 /leistungen-erwachsene.html
+Redirect 301 /mundhygiene-und-bracketumfeldversiegelung.html                 /leistungen.html
+Redirect 301 /mundhygiene.html                                               /leistungen.html
+Redirect 301 /kostenplanung-bei-kindern-und-jugendlichen.html                /haeufige-fragen.html
+Redirect 301 /kostenplanung-bei-erwachsenen.html                             /haeufige-fragen.html
+Redirect 301 /infos/                                                         /haeufige-fragen.html
+Redirect 301 /kontakt/                                                       /kontakt.html
+Redirect 301 /kontaktformular.html                                           /kontakt.html
+Redirect 301 /anfahrt_parken/                                                /kontakt.html
+Redirect 301 /sos.html                                                       /kontakt.html
+Redirect 301 /regionen/                                                      /
+Redirect 301 /kfo-giessen.html                                               /
+Redirect 301 /kfo-lich.html                                                  /
+Redirect 301 /kfo-bad-homburg.html                                           /
+Redirect 301 /kfo-usingen.html                                               /
+Redirect 301 /kieferorthopaedie-invisalign-bad-nauheim.html                  /
+Redirect 301 /kieferorthopaedie-friedberg.html                               /
+Redirect 301 /kieferorthopaedie-giessen.html                                 /
+Redirect 301 /errer404.html                                                  /
 
 ErrorDocument 404 /index.html
 
