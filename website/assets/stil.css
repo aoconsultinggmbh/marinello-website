@@ -678,6 +678,8 @@ html.js .zeigen--bild{transform:none;transition:opacity 1.2s ease}
   .dreier{grid-template-columns:1fr;gap:3rem}
   .panorama{height:48vw}
   .reihen > li > *{grid-column:auto}
+  /* Der Knopf darf auf dem Handy keine zweite Spalte erzwingen, sonst wird die Überschrift schmal */
+  .reihen .knopfreihe{grid-column:auto}
   .formular{grid-template-columns:1fr}
   .kontaktleiste{
     top:auto;bottom:0;left:0;right:0;transform:none;flex-direction:row;justify-content:space-around;
