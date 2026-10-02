@@ -12,11 +12,11 @@ RewriteCond %{HTTP_HOST} \.kasserver\.com$ [NC]
 RewriteRule ^ - [L]
 
 # --- Immer https und immer www -------------------------------------------
-# ERST AM LIVEGANG-TAG freischalten (Raute entfernen) und DOMAIN ersetzen.
+# Freigeschaltet am 02.10.2026 nach Ausstellung der Zertifikate (Domain und www).
 # Vorher nicht: eine falsche Umleitung macht die Seite unerreichbar.
-# RewriteCond %{HTTPS} !=on [OR]
-# RewriteCond %{HTTP_HOST} !^www\. [NC]
-# RewriteRule ^(.*)$ https://www.kfo-marinello.de/$1 [R=301,L]
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^(.*)$ https://www.kfo-marinello.de/$1 [R=301,L]
 
 # --- Alte Adressen der Vorgaengerseite -------------------------------------
 # Am Livegang-Tag: die alte Seite auslesen, jede alte Adresse hierher.
