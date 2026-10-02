@@ -47,6 +47,8 @@ jobs:
             sed -i 's|<meta name="robots" content="[^"]*">|<meta name="robots" content="noindex, nofollow">|' "$f"
             # ... und falls keiner da war, einen einfuegen
             grep -q 'name="robots"' "$f" || sed -i 's|<head>|<head>\n  <meta name="robots" content="noindex, nofollow">|' "$f"
+            # Besucherzaehlung nur auf der echten Seite, sonst zaehlt Matomo Vorschau-Aufrufe mit
+            sed -i '/assets\/js\/statistik\.js/d' "$f"
           done < <(find _vorschau -name "*.html")
           # robots.txt der Vorschau: alles sperren, keine Sitemap
           printf 'User-agent: *\nDisallow: /\n' > _vorschau/robots.txt

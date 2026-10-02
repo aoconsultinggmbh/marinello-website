@@ -13,7 +13,7 @@
   'use strict';
 
   var adresse = 'https://statistik.ao-consult.de/';
-  var seite   = 'SEITEN_NUMMER';   // Kennung aus Matomo, siehe doku/checkliste-livegang.md
+  var seite   = '4';   // Kennung dieser Webseite in Matomo (Kieferorthopädie Dr. Marinello)
 
   var _paq = (window._paq = window._paq || []);
 
