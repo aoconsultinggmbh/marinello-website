@@ -691,7 +691,8 @@ html.js .zeigen--bild{transform:none;transition:opacity 1.2s ease}
   body{padding-bottom:52px}
   .marke{opacity:1;transform:none}
   body > header{background:rgba(220,231,246,.94);border-bottom-color:var(--linie-zart)}
-  .ao-bf-knopf,.ao-barrierefreiheit__knopf{bottom:66px !important}
+  /* Barrierefreiheits-Knopf über die Kontaktleiste heben (52px Leiste + 14px Luft) */
+  .bf-knopf,.ao-bf-knopf,.ao-barrierefreiheit__knopf{bottom:66px !important}
 }
 @media (max-width:560px){
   /* Auf dem Handy ist eine Trennung besser als ein Wort, das aus der Zeile faellt */
